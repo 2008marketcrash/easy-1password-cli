@@ -6,4 +6,3 @@ Auto signout
 Clipboard management
 Clipboard cleanup
 README
-versioning

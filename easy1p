@@ -1,2 +1,16 @@
 #!/usr/bin/env bash
 
+# print version
+echo "easy-1password-cli 0.1"
+
+# check for dependencies
+# TODO
+
+# check for 1password-cli updates
+echo -n "1password-cli "
+op --version
+op update
+
+# check for file permissions
+# TODO
+
