@@ -14,3 +14,11 @@ op update
 # check for file permissions
 # TODO
 
+# TODO Shell script header
+# TODO Auto update
+# TODO Ctrl+c Ctrl+z SIGINT catching
+# TODO Clean env variables
+# TODO Auto signout
+# TODO README
+# TODO Clipboard management
+# TODO Clipboard cleanup
