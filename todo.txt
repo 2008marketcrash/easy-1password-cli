@@ -1,0 +1,8 @@
+Shell script header
+Auto update
+Ctrl+c Ctrl+z SIGINT catching
+Clean env variables
+Auto signout
+Clipboard management
+Clipboard cleanup
+
