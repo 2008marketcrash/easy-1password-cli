@@ -31,19 +31,21 @@ function signin {
 
 # signout of 1password
 function signout {
-    op signout
-    unset "OP_SESSION_*" # TODO
+    op signout --account $1
+    unset "OP_SESSION_$1"
 }
 
 # script entry point
 function main {
     check_for_op_setup
     signin $OP_LATEST_SIGNIN
-    op signout
+    signout $OP_LATEST_SIGNIN
 }
 
 # start script
 main
+
+
 
 # TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
