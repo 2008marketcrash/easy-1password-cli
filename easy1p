@@ -1,15 +1,36 @@
 #!/usr/bin/env bash
 
-# print version
-echo "easy-1password-cli 0.1"
+# print versions
+print_versions() {
+    echo "easy-1password-cli 0.1"
+    echo -n "1password-cli "
+    op --version
+    echo -n "jq "
+    jq --version
+}
 
-# check for dependencies
-# TODO
+# print help text
+print_help() {
+    echo "TODO"
+}
 
-# check for 1password-cli updates
-echo -n "1password-cli "
-op --version
-op update
+# check for 1password-cli to be set up
+check_for_op_setup() {
+    if test -f ~/.op/config; then
+        OP_LATEST_SIGNIN=$(cat ~/.op/config | jq --raw-output '.latest_signin')
+    else
+        echo "1password-cli is not set up yet. Please run 'op signin' to set it up."
+    fi
+}
+
+# script entry point
+main() {
+    print_versions
+    check_for_op_setup
+}
+
+# start script
+main
 
 # TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
@@ -19,4 +40,8 @@ op update
 # TODO Clipboard management
 # TODO Clipboard clear after time
 # TODO Clipboard cleanup
-# TODO consider encrypting op config file
+# TODO consider encrypting ~/.op/config with master password
+# TODO check ~/.op/config to make sure op is setup
+# TODO standard 1password-cli flags to specify subdomain, accounts, vaults, etc
+# TODO help, version flags
+# TODO check for dependencies
