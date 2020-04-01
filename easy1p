@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # print versions
-print_versions() {
+function print_versions {
     echo "easy-1password-cli 0.1"
     echo -n "1password-cli "
     op --version
@@ -10,12 +10,12 @@ print_versions() {
 }
 
 # print help text
-print_help() {
+function print_help {
     echo "TODO"
 }
 
 # check for 1password-cli to be set up
-check_for_op_setup() {
+function check_for_op_setup {
     if test -f ~/.op/config; then
         OP_LATEST_SIGNIN=$(cat ~/.op/config | jq --raw-output '.latest_signin')
     else
@@ -23,10 +23,16 @@ check_for_op_setup() {
     fi
 }
 
+# signin to 1password
+function signin {
+    SESSION_TOKEN=$(op signin $1 --raw)
+}
+
 # script entry point
-main() {
-    print_versions
+function main {
     check_for_op_setup
+    signin $OP_LATEST_SIGNIN
+    echo $SESSION_TOKEN
 }
 
 # start script
@@ -35,7 +41,7 @@ main
 # TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Clean env variables
-# TODO Auto signout
+# TODO Auto signout (especially using --raw flag, token needs to be invalidated)
 # TODO README
 # TODO Clipboard management
 # TODO Clipboard clear after time
@@ -45,3 +51,4 @@ main
 # TODO standard 1password-cli flags to specify subdomain, accounts, vaults, etc
 # TODO help, version flags
 # TODO check for dependencies
+# TODO session token check if needs to be renewed
