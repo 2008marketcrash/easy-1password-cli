@@ -25,14 +25,20 @@ function check_for_op_setup {
 
 # signin to 1password
 function signin {
-    SESSION_TOKEN=$(op signin $1 --raw)
+    eval $(op signin $1)
+}
+
+# signout of 1password
+function signout {
+    op signout
+    unset "OP_SESSION_*" # TODO
 }
 
 # script entry point
 function main {
     check_for_op_setup
     signin $OP_LATEST_SIGNIN
-    echo $SESSION_TOKEN
+    op signout
 }
 
 # start script
@@ -42,6 +48,7 @@ main
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Clean env variables
 # TODO Auto signout (especially using --raw flag, token needs to be invalidated)
+# TODO check with 1password support about unsetting session variables
 # TODO README
 # TODO Clipboard management
 # TODO Clipboard clear after time
