@@ -11,14 +11,12 @@ echo -n "1password-cli "
 op --version
 op update
 
-# check for file permissions
-# TODO
-
-# TODO Shell script header
-# TODO Auto update
+# TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Clean env variables
 # TODO Auto signout
 # TODO README
 # TODO Clipboard management
+# TODO Clipboard clear after time
 # TODO Clipboard cleanup
+# TODO consider encrypting op config file
