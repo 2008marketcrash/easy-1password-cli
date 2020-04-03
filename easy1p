@@ -35,17 +35,34 @@ function signout {
     unset "OP_SESSION_$1"
 }
 
-# script entry point
-function main {
+# core lifecycle logic
+function core_lifecycle {
     check_for_op_setup
     signin $OP_LATEST_SIGNIN
     signout $OP_LATEST_SIGNIN
 }
 
+# entry point
+function main {
+    # check for version and help flags
+    if [[ $# -eq 1 ]] ; then
+        if [[ "$1" =~ ^(--?)([vV]([eE][rR][sS][iI][oO][nN])?)$ ]] ; then
+            print_versions
+            exit 0
+        fi
+
+        if [[ "$1" =~ ^(--?)([hH]([eE][lL][pP])?)$ ]] ; then
+            print_help
+            exit 0
+        fi
+    fi
+
+    # begin core lifecycle
+    core_lifecycle
+}
+
 # start script
-main
-
-
+main $*
 
 # TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
