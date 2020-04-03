@@ -38,8 +38,12 @@ function signout() {
 # core lifecycle logic
 function core_lifecycle() {
     check_for_op_setup
-    signin $OP_LATEST_SIGNIN
-    signout $OP_LATEST_SIGNIN
+
+    # pick an account to sign in
+    OP_ACCOUNT=${1:-$OP_LATEST_SIGNIN}
+
+    signin $OP_ACCOUNT
+    signout $OP_ACCOUNT
 }
 
 # entry point
@@ -58,7 +62,7 @@ function main() {
     fi
 
     # begin core lifecycle
-    core_lifecycle
+    core_lifecycle $*
 }
 
 # start script
@@ -68,14 +72,12 @@ main $*
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Clean env variables
 # TODO Auto signout (especially using --raw flag, token needs to be invalidated)
-# TODO check with 1password support about unsetting session variables
-# TODO README
+# TODO Check with 1password support about where the vault is decrypted
 # TODO Clipboard management
 # TODO Clipboard clear after time
 # TODO Clipboard cleanup
 # TODO consider encrypting ~/.op/config with master password
 # TODO check ~/.op/config to make sure op is setup
 # TODO standard 1password-cli flags to specify subdomain, accounts, vaults, etc
-# TODO help, version flags
 # TODO check for dependencies
 # TODO session token check if needs to be renewed
