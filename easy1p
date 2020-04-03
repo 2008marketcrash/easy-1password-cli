@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# check to see if all dependencies are satisfied
+function check_dependencies() {
+    for dep in "op" "jq"; do
+        if [[ ! $(command -v "$dep") ]]; then
+            echo "Unable to find '$dep' command. Please make sure it is installed and part of the path variable."
+            exit 1
+        fi
+    done
+}
+
 # print versions
 function print_versions() {
     echo "easy-1password-cli 0.1"
@@ -48,6 +58,8 @@ function core_lifecycle() {
 
 # entry point
 function main() {
+    check_dependencies
+
     # check for version and help flags
     if [[ $# -eq 1 ]]; then
         if [[ "$1" =~ ^(--?)([vV]([eE][rR][sS][iI][oO][nN])?)$ ]]; then
@@ -79,5 +91,4 @@ main $*
 # TODO consider encrypting ~/.op/config with master password
 # TODO check ~/.op/config to make sure op is setup
 # TODO standard 1password-cli flags to specify subdomain, accounts, vaults, etc
-# TODO check for dependencies
 # TODO session token check if needs to be renewed
