@@ -48,7 +48,7 @@ function signout() {
 
 # prompt users for command inside the core lifecycle loop
 function prompt_for_command() {
-    read -p "> $op_account: " command
+    read -p "> $op_account / $op_vault: " command
     if [[ -z $command ]]; then
         prompt_for_command
     fi
@@ -59,8 +59,8 @@ function prompt_for_command() {
 function core_lifecycle() {
     check_for_op_setup
 
-    # pick an account to sign in
     op_account=${1:-$op_latest_signin}
+    op_vault=${2:-"all vaults"}
     echo "Using '${op_account}' account to sign in."
 
     signin $op_account
@@ -78,7 +78,6 @@ function core_lifecycle() {
 function main() {
     check_dependencies
 
-    # check for version and help flags
     if [[ $# -eq 1 ]]; then
         if [[ "$1" =~ ^(--?)([vV]([eE][rR][sS][iI][oO][nN])?)$ ]]; then
             print_versions
@@ -91,7 +90,6 @@ function main() {
         fi
     fi
 
-    # begin core lifecycle
     core_lifecycle $*
 }
 
@@ -99,12 +97,6 @@ function main() {
 main $*
 
 # TODO Ctrl+c Ctrl+z SIGINT catching
-# TODO Clean env variables
 # TODO Auto signout
-# TODO Clipboard management
-# TODO Clipboard clear after time
-# TODO Clipboard cleanup
-# TODO consider encrypting ~/.op/config with master password
-# TODO check ~/.op/config to make sure op is setup
-# TODO standard 1password-cli flags to specify accounts, vaults, etc
+# TODO Clipboard support / clear after time / clear on exit
 # TODO session token check if needs to be renewed
