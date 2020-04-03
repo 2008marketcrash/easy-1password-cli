@@ -43,6 +43,16 @@ function signin() {
 function signout() {
     op signout --account $1
     unset "OP_SESSION_$1"
+    exit 0
+}
+
+# prompt users for command with
+function prompt_for_command() {
+    read -p "> $op_account: " command
+    if [[ -z $command ]]; then
+        prompt_for_command
+    fi
+    echo $command
 }
 
 # core lifecycle logic
@@ -81,7 +91,6 @@ function main() {
 # start script
 main $*
 
-# TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Clean env variables
 # TODO Auto signout
