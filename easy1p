@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # print versions
-function print_versions {
+function print_versions() {
     echo "easy-1password-cli 0.1"
     echo -n "1password-cli "
     op --version
@@ -11,12 +11,12 @@ function print_versions {
 }
 
 # print help text
-function print_help {
+function print_help() {
     echo "TODO"
 }
 
 # check for 1password-cli to be set up
-function check_for_op_setup {
+function check_for_op_setup() {
     if test -f ~/.op/config; then
         OP_LATEST_SIGNIN=$(cat ~/.op/config | jq --raw-output '.latest_signin')
     else
@@ -25,33 +25,33 @@ function check_for_op_setup {
 }
 
 # signin to 1password
-function signin {
+function signin() {
     eval $(op signin $1)
 }
 
 # signout of 1password
-function signout {
+function signout() {
     op signout --account $1
     unset "OP_SESSION_$1"
 }
 
 # core lifecycle logic
-function core_lifecycle {
+function core_lifecycle() {
     check_for_op_setup
     signin $OP_LATEST_SIGNIN
     signout $OP_LATEST_SIGNIN
 }
 
 # entry point
-function main {
+function main() {
     # check for version and help flags
-    if [[ $# -eq 1 ]] ; then
-        if [[ "$1" =~ ^(--?)([vV]([eE][rR][sS][iI][oO][nN])?)$ ]] ; then
+    if [[ $# -eq 1 ]]; then
+        if [[ "$1" =~ ^(--?)([vV]([eE][rR][sS][iI][oO][nN])?)$ ]]; then
             print_versions
             exit 0
         fi
 
-        if [[ "$1" =~ ^(--?)([hH]([eE][lL][pP])?)$ ]] ; then
+        if [[ "$1" =~ ^(--?)([hH]([eE][lL][pP])?)$ ]]; then
             print_help
             exit 0
         fi
