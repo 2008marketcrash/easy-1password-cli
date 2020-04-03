@@ -34,12 +34,12 @@ function check_for_op_setup() {
     fi
 }
 
-# signin to 1password
+# sign in to 1password
 function signin() {
     eval $(op signin $1)
 }
 
-# signout of 1password
+# sign out of 1password
 function signout() {
     op signout --account $1
     unset "OP_SESSION_$1"
@@ -51,6 +51,7 @@ function core_lifecycle() {
 
     # pick an account to sign in
     OP_ACCOUNT=${1:-$OP_LATEST_SIGNIN}
+    echo "Using '${OP_ACCOUNT}' account to sign in."
 
     signin $OP_ACCOUNT
     signout $OP_ACCOUNT
@@ -83,8 +84,7 @@ main $*
 # TODO Shell script license
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Clean env variables
-# TODO Auto signout (especially using --raw flag, token needs to be invalidated)
-# TODO Check with 1password support about where the vault is decrypted
+# TODO Auto signout
 # TODO Clipboard management
 # TODO Clipboard clear after time
 # TODO Clipboard cleanup
