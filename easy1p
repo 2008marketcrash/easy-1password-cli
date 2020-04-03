@@ -28,7 +28,7 @@ function print_help() {
 # check for 1password-cli to be set up
 function check_for_op_setup() {
     if test -f ~/.op/config; then
-        OP_LATEST_SIGNIN=$(cat ~/.op/config | jq --raw-output '.latest_signin')
+        op_latest_signin=$(cat ~/.op/config | jq --raw-output '.latest_signin')
     else
         echo "1password-cli is not set up yet. Please run 'op signin' to set it up."
     fi
@@ -46,7 +46,7 @@ function signout() {
     exit 0
 }
 
-# prompt users for command with
+# prompt users for command inside the core lifecycle loop
 function prompt_for_command() {
     read -p "> $op_account: " command
     if [[ -z $command ]]; then
@@ -60,11 +60,18 @@ function core_lifecycle() {
     check_for_op_setup
 
     # pick an account to sign in
-    OP_ACCOUNT=${1:-$OP_LATEST_SIGNIN}
-    echo "Using '${OP_ACCOUNT}' account to sign in."
+    op_account=${1:-$op_latest_signin}
+    echo "Using '${op_account}' account to sign in."
 
-    signin $OP_ACCOUNT
-    signout $OP_ACCOUNT
+    signin $op_account
+
+    while :; do
+        command=$(prompt_for_command)
+        [[ "$command" != "signout" && "$command" != "exit" ]] || break
+
+    done
+
+    signout $op_account
 }
 
 # entry point
@@ -99,5 +106,5 @@ main $*
 # TODO Clipboard cleanup
 # TODO consider encrypting ~/.op/config with master password
 # TODO check ~/.op/config to make sure op is setup
-# TODO standard 1password-cli flags to specify subdomain, accounts, vaults, etc
+# TODO standard 1password-cli flags to specify accounts, vaults, etc
 # TODO session token check if needs to be renewed
