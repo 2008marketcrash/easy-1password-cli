@@ -37,6 +37,7 @@ function check_for_op_setup() {
 # sign in to 1password
 function signin() {
     session_token=$(op signin $op_account --raw)
+    session_start_time=$(date +%s)
 }
 
 # sign out of 1password
@@ -45,9 +46,19 @@ function signout() {
     exit 0
 }
 
+# renew session if it is too old
+function validate_session() {
+    default_session_length=$((30))
+    current_session_length=$(($(date +%s) - $session_start_time))
+    if [[ $current_session_length -ge $default_session_length ]]; then
+        echo "Your current session has expired. Please renew it to continue."
+        signin
+    fi
+}
+
 # prompt users for command inside the core lifecycle loop
 function prompt_for_command() {
-    read -p "> $op_account: " command
+    read -p "> easy1p ($op_account): " command
     if [[ -z $command ]]; then
         prompt_for_command
     fi
@@ -57,17 +68,19 @@ function prompt_for_command() {
 # core lifecycle logic
 function core_lifecycle() {
     check_for_op_setup
-
     op_account=${1:-$op_latest_signin}
+
     signin
 
     while :; do
         command=$(prompt_for_command)
-        [[ "$command" != "signout" && "$command" != "exit" ]] || break
+        [[ "$command" != "signout" && "$command" != "exit" ]] || break # TODO check first token only
+
+        validate_session
 
     done
 
-    signout $op_account
+    signout
 }
 
 # entry point
@@ -95,5 +108,4 @@ main $*
 # TODO Ctrl+c Ctrl+z SIGINT catching
 # TODO Auto signout
 # TODO Clipboard support / clear after time / clear on exit
-# TODO session token check if needs to be renewed
 # TODO installation and updates like oh-my-zsh
