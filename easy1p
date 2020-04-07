@@ -105,3 +105,4 @@ main $*
 # TODO Clipboard support / clear after time / clear on exit
 # TODO installation and updates like oh-my-zsh
 # TODO see if session variables can be stolen using op commands
+# TODO check ps for session token
