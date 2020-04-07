@@ -71,15 +71,11 @@ function core_lifecycle() {
     op_account=${1:-$op_latest_signin}
 
     signin
-
     while :; do
         command=$(prompt_for_command)
         [[ "$command" != "signout" && "$command" != "exit" ]] || break # TODO check first token only
-
         validate_session
-
     done
-
     signout
 }
 
@@ -105,7 +101,7 @@ function main() {
 # start script
 main $*
 
-# TODO Ctrl+c Ctrl+z SIGINT catching
-# TODO Auto signout
+# TODO Ctrl+c Ctrl+z SIGINT catching and auto signout
 # TODO Clipboard support / clear after time / clear on exit
 # TODO installation and updates like oh-my-zsh
+# TODO see if session variables can be stolen using op commands
