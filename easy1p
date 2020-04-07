@@ -36,7 +36,8 @@ function check_for_op_setup() {
 
 # sign in to 1password
 function signin() {
-    eval $(op signin $1)
+    session_token=$(op signin $1 --raw)
+    export "OP_SESSION_$1"=$session_token
 }
 
 # sign out of 1password
