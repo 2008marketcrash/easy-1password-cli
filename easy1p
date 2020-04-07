@@ -36,14 +36,12 @@ function check_for_op_setup() {
 
 # sign in to 1password
 function signin() {
-    session_token=$(op signin $1 --raw)
-    export "OP_SESSION_$1"=$session_token
+    session_token=$(op signin $op_account --raw)
 }
 
 # sign out of 1password
 function signout() {
-    op signout --account $1
-    unset "OP_SESSION_$1"
+    op signout --session $session_token
     exit 0
 }
 
@@ -61,7 +59,7 @@ function core_lifecycle() {
     check_for_op_setup
 
     op_account=${1:-$op_latest_signin}
-    signin $op_account
+    signin
 
     while :; do
         command=$(prompt_for_command)
