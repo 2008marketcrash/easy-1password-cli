@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# handle signals
+trap signout SIGINT SIGTERM SIGQUIT SIGHUP
+
 # check to see if all dependencies are satisfied
 function check_dependencies() {
     for dep in "op" "jq"; do
@@ -102,7 +105,6 @@ function main() {
 # start script
 main $*
 
-# TODO Ctrl+c Ctrl+z SIGINT catching and auto signout
 # TODO Clipboard support / clear after time / clear on exit
 # TODO installation and updates like oh-my-zsh
 # TODO see if session variables can be stolen using op commands
