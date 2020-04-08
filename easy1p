@@ -73,7 +73,8 @@ function core_lifecycle() {
     signin
     while :; do
         command=$(prompt_for_command)
-        [[ "$command" != "signout" && "$command" != "exit" ]] || break # TODO check first token only
+        command_first_token=$(echo $command | head -n 1 | cut -d " " -f 1)
+        [[ "$command_first_token" != "signout" && "$command_first_token" != "exit" ]] || break
         validate_session
     done
     signout
