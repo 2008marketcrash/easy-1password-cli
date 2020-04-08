@@ -44,16 +44,6 @@ function signin() {
     session_start_time=$(date +%s)
 }
 
-# sign out of 1password
-function signout() {
-    if [[ ! -z ${session_token:-} ]]; then
-        echo "> Signing out of $op_account."
-        op signout --session $session_token
-        unset session_token
-    fi
-    exit 0
-}
-
 # renew session if it is too old
 function validate_session() {
     default_session_length=$((30 * 60))
@@ -62,6 +52,16 @@ function validate_session() {
         echo "Your current session has expired. Please renew it to continue."
         signin
     fi
+}
+
+# sign out of 1password
+function signout() {
+    if [[ ! -z ${session_token:-} ]]; then
+        echo "> Signing out of $op_account."
+        op signout --session $session_token
+        unset session_token
+    fi
+    exit 0
 }
 
 # prompt users for command inside the core lifecycle loop
