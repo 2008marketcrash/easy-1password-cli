@@ -31,7 +31,7 @@ function print_help() {
 # check for 1password-cli to be set up
 function check_for_op_setup() {
     if test -f ~/.op/config; then
-        op_latest_signin=$(cat ~/.op/config | jq --raw-output '.latest_signin')
+        op_latest_signin=$(cat ~/.op/config | jq --raw-output ".latest_signin")
     else
         echo "1password-cli is not set up yet. Please run 'op signin' to set it up."
     fi
@@ -71,6 +71,16 @@ function prompt_for_command() {
         prompt_for_command
     fi
     echo $command
+}
+
+# pretty print piped json input
+function pretty_print() {
+    jq "."
+}
+
+# get specified field from json
+function get_field() {
+    jq --raw-output ".details.fields[] | select(.designation==\"$1\").value"
 }
 
 # core lifecycle logic
