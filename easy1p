@@ -83,7 +83,7 @@ function core_lifecycle() {
         command_first_token=$(echo $command | head -n 1 | cut -d " " -f 1)
         [[ "$command_first_token" != "signout" && "$command_first_token" != "exit" ]] || break
         validate_session
-        eval "op --session $session_token $command"
+        eval "op --session $session_token $command" || true
     done
     signout
 }
