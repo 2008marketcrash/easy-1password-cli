@@ -51,7 +51,7 @@ function signout() {
 
 # renew session if it is too old
 function validate_session() {
-    default_session_length=$((30))
+    default_session_length=$((30 * 60))
     current_session_length=$(($(date +%s) - $session_start_time))
     if [[ $current_session_length -ge $default_session_length ]]; then
         echo "Your current session has expired. Please renew it to continue."
@@ -107,5 +107,4 @@ main $*
 
 # TODO Clipboard support / clear after time / clear on exit
 # TODO installation and updates like oh-my-zsh
-# TODO see if session variables can be stolen using op commands
 # TODO check ps for session token
