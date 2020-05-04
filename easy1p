@@ -122,6 +122,6 @@ function main() {
 # start script
 main $*
 
-# TODO Clipboard support / clear after time / clear on exit
+# TODO clipboard support / clear after x seconds / clear on exit
 # TODO installation and updates like oh-my-zsh
-# TODO check ps for session token
+# TODO verify that ps output does not contain session tokens
